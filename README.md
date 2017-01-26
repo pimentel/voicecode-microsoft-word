@@ -11,7 +11,7 @@ You can also switch back to line mode with the command 🔉line mode🔉.
 
 ### Issues
 
-Please report any issues to [GitHub issues](https://github.com/pimentel/voicecode-microsoft-word).
+Please report any issues to [GitHub issues](https://github.com/pimentel/voicecode-microsoft-word/issues).
 
 ### License
 
