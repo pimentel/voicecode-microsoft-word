@@ -271,3 +271,16 @@ pack.implement
       end tell
       """
       @applescript cmd
+  'editor:extend-selection-to-line-number': (input) ->
+    if input?
+      number = parseInt(input)
+      number += 1
+      cmd = """
+      tell application "Microsoft Word"
+      	set textObject to text object of selection
+      	set startOfSelection to selection start of selection
+      	navigate textObject position absolute count #{number} to goto a line item
+      	set selection start of selection to startOfSelection
+      end tell
+      """
+      @applescript cmd
