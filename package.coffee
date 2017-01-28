@@ -55,7 +55,7 @@ pack.command 'toggle-line-numbering',
     @applescript cmd
 pack.command 'word-count',
   spoken: 'word count'
-  description: "display a word and character count"
+  description: "Display a word and character count using Growl."
   action: ->
     cmd = """
     #{growlNotification}
@@ -162,11 +162,13 @@ pack.implement
       tell application "Microsoft Word"
         -- clear the selection
       	set selection start of selection to selection end of selection
+      	set startOfSelection to selection start of selection
+      	set textObject to text object of selection
+      	set newPosition to move end of range textObject by a word item
+      	set selection start of selection to startOfSelection
       end tell
       """
       @applescript cmd
-      @key 'right', 'option shift'
-
     else
       input = input - 1
       cmd = """
@@ -183,12 +185,15 @@ pack.implement
     if not input?
       cmd = """
       tell application "Microsoft Word"
-        -- clear the selection
+      	-- clear the selection
       	set selection end of selection to selection start of selection
+      	set startOfSelection to selection start of selection
+      	set textObject to text object of selection
+      	set newPosition to move end of range textObject by a word item count -1
+      	set selection end of selection to startOfSelection
       end tell
       """
       @applescript cmd
-      @key 'left', 'option shift'
     else
       input = -input
       cmd = """
