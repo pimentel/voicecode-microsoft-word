@@ -247,3 +247,27 @@ pack.implement
     end tell
     """
     @applescript cmd
+  'editor:select-line-number-range': (input) ->
+    # conversion of first and last from Atom package
+    if input?
+      number = input.toString()
+      length = Math.floor(number.length / 2)
+      first = number.substr(0, length)
+      last = number.substr(length, length + 1)
+      first = parseInt(first)
+      last = parseInt(last)
+      if last < first
+        temp = last
+        last = first
+        first = temp
+      last = last + 1
+      cmd = """
+      tell application "Microsoft Word"
+      	set textObject to text object of selection
+      	navigate textObject position absolute count #{first} to goto a line item
+      	set startOfSelection to selection start of selection
+      	navigate textObject position absolute count #{last} to goto a line item
+      	set selection start of selection to startOfSelection
+      end tell
+      """
+      @applescript cmd
