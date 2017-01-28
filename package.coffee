@@ -10,6 +10,17 @@ runVisualBasic = (whichScript, application = "Microsoft Word") ->
   text = "tell application \"#{application}\" to run VB macro macro name \"#{whichScript}\""
   Actions.applescript text
 
+growlNotification = """
+on growlNotification(theMessage)
+	tell application "Growl"
+		set the allNotificationsList to {"Microsoft Word"}
+		set the enabledNotificationsList to {"Microsoft Word"}
+		register as application "Microsoft Word" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "Microsoft Word"
+		notify with name "Microsoft Word" title "Microsoft Word" description theMessage application name "Microsoft Word"
+	end tell
+end growlNotification
+"""
+
 pack.settings =
   'moveMode': 'line'
 
@@ -39,6 +50,23 @@ pack.command 'toggle-line-numbering',
     	set isActive to active line of lineNumbering
     	set active line of lineNumbering to not isActive
     	set restart mode of lineNumbering to restart continuous
+    end tell
+    """
+    @applescript cmd
+pack.command 'word-count',
+  spoken: 'word count'
+  description: "display a word and character count"
+  action: ->
+    cmd = """
+    #{growlNotification}
+
+    tell application "Microsoft Word"
+    	set numberOfCharacters to compute statistics of active document statistic statistic characters with spaces
+    	set numberOfWords to compute statistics of active document statistic statistic words
+      set theNotification to "chars: " & numberOfCharacters & "\nwords: " & numberOfWords
+      -- can also use the below if you don't want to use Growl
+    	-- display alert theNotification
+      my growlNotification(theNotification)
     end tell
     """
     @applescript cmd
