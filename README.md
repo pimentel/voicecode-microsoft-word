@@ -9,6 +9,12 @@ The default is to jump between lines.
 This can be changed by the command 🔉page mode🔉.
 You can also switch back to line mode with the command 🔉line mode🔉.
 
+## Behavior
+
+Most behavior is as expected, except for the following:
+
+- `editor:expand-selection-to-scope` (🔉bracken🔉): will expand selection to word, sentence, paragraph, section, story
+
 ### Issues
 
 Please report any issues to [GitHub issues](https://github.com/pimentel/voicecode-microsoft-word/issues).

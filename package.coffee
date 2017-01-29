@@ -272,21 +272,8 @@ pack.implement
       """
       @applescript cmd
   'editor:extend-selection-to-line-number': (input) ->
-    # only works when line number is greater than current position
-    # way to fix:
-    # get the text object of which line to go to
-    # check if the character number is greater or less than the start or end
-    # fix accordingly
     if input?
       number = parseInt(input)
-      cmd = """
-      tell application "Microsoft Word"
-      	set textObject to text object of selection
-      	set startOfSelection to selection start of selection
-      	navigate textObject position absolute count #{number} to goto a line item
-      	set selection start of selection to startOfSelection
-      end tell
-      """
       cmd = """
       tell application "Microsoft Word"
       	set textObject to text object of selection
@@ -305,3 +292,14 @@ pack.implement
       end tell
       """
       @applescript cmd
+  'editor:expand-selection-to-scope': ->
+    cmd = """
+    tell application "Microsoft Word"
+    	if not extend mode of selection then
+    		set extend mode of selection to true
+    	end if
+    	extend selection
+    	set extend mode of selection to false
+    end tell
+    """
+    @applescript cmd
